@@ -1,0 +1,5 @@
+﻿Krille,11,13,13
+Franke,19,16,12
+Kalle,30,12,14
+Gilgamesh,25,10,10
+John,20,10,10
