@@ -3,36 +3,93 @@ class Program
 {
     static void Main(string[] args)
     {
-        string input = "";
-        try { 
-            input = File.ReadAllText(@"monsters.txt");
-            
-        }
-        catch
-        {
-            Console.WriteLine("No file found...");
-        }
+        //string input = "";
+        //try {
+        //    input = File.ReadAllText(@"monsters.txt");
+
+        //}
+        //catch
+        //{
+        //    Console.WriteLine("No file found...");
+        //}
         //Console.WriteLine(input);
         //Console.ReadLine();
         // pre-defined monsters
 
-        Monster[] monsters = new Monster[0];
+        //Monster[] monsters = new Monster[0];
 
-        //string[] monsterNames = new string[0];
-        //int[] monsterHealthPoints = new int[0];
-        //int[] monsterAttackPoints = new int[0];
-        //int[] monsterDefencePoints = new int[0];
+        Monster[] monsters = new Monster[]
+        {
+            new Monster{
+                Name = "Krille",
+                Health = 20,
+                Defense = 10,
+                Attacks = new Attack[]
+                {
+                    new Attack
+                    {
+                        Name = "Omnislash",
+                        AttackValue = 30
+                    },
+                    new Attack
+                    {
+                        Name = "KOTR",
+                        AttackValue = 40
+                    },
+                    new Attack
+                    {
+                        Name = "Mimic",
+                        AttackValue = 30
+                    },
+                }
+            },
+            new Monster{
+                Name = "Franke",
+                Health = 24,
+                Defense = 13,
+                Attacks = new Attack[]
+                {
+                    new Attack
+                    {
+                        Name = "Mimic",
+                        AttackValue = 40
+                    },
+                    new Attack
+                    {
+                        Name = "Mime",
+                        AttackValue = 20
+                    },
+                    new Attack
+                    {
+                        Name = "Run away",
+                        AttackValue = 0
+                    },
+                    new Attack
+                    {
+                        Name = "Hack",
+                        AttackValue = 50
+                    },
+                }
+            }
+        };
 
-        //monsterNames[0] = "Krille";
-        //monsterHealthPoints[0] = 10;
-        //monsterAttackPoints[0] = 12;
-        //monsterDefencePoints[0] = 14;
+    Console.WriteLine("hej");
+    //string[] monsterNames = new string[0];
+    //int[] monsterHealthPoints = new int[0];
+    //int[] monsterAttackPoints = new int[0];
+    //int[] monsterDefencePoints = new int[0];
 
-        Monster[] addMonster(Monster[] oldMonsters, Monster monsterToAdd)
+    //monsterNames[0] = "Krille";
+    //monsterHealthPoints[0] = 10;
+    //monsterAttackPoints[0] = 12;
+    //monsterDefencePoints[0] = 14;
+
+    Monster[] addMonster(Monster[] oldMonsters, Monster monsterToAdd)
         {
             // This function takes two arguments. The first is the array of monsters
             // The second is the monster to add to the array of monsters
             // finally a new array of monsters is returned.
+            int a = monsters.Length;
             int numberOfMonsters = oldMonsters.Length;
             Monster[] newMonsters = new Monster[numberOfMonsters + 1];
             for (int l = 0; l < numberOfMonsters; l++)
@@ -66,7 +123,7 @@ class Program
                         break;
                     case 2:
                         // Attack
-                        m.Attack = int.Parse(cols[k]);
+                        //m.Attack = int.Parse(cols[k]);
                         //monsterAttackPoints[index] = int.Parse(cols[k]);
                         break;
                     case 3:
@@ -138,13 +195,13 @@ class Program
         //    }
         //}
 
-        var rows = input.Split('\n');
-        Console.WriteLine("Outer For loop:");
+        //var rows = input.Split('\n');
+        //Console.WriteLine("Outer For loop:");
 
-        foreach (var row in rows)
-        {
-            monsters = addMonster(monsters, parseRow(row));
-        }
+        //foreach (var row in rows)
+        //{
+        //    monsters = addMonster(monsters, parseRow(row));
+        //}
         //for (int j = 0; j < rows.Length; j++)
         //{
         //    //Console.WriteLine("Outer loop {0}: {1}", j, rows[j]);
@@ -166,15 +223,22 @@ class Program
             Console.WriteLine("3. Update new monster");
             Console.WriteLine("E. Exit");
             Console.Write("----> ");
-            string? choice = Console.ReadLine().ToUpper();
+            string? choice = Console.ReadLine().ToUpper(); 
             switch (choice)
             {
                 case "1":
                     Console.WriteLine("Listing all monsters");
+                    // monsters is an array of instances of Monster
+                    // each monster has an array of instances of Attack called Attacks
                     for (int i = 0; i < monsters.Length; i++)
                     {
                         //Console.WriteLine("{0}: HP: {1}, AP: {2}, DP: {3}", monsterNames[i], monsterHealthPoints[i], monsterAttackPoints[i], monsterDefencePoints[i]);
-                        Console.WriteLine("{0}: HP: {1}, AP: {2}, DP: {3}", monsters[i].Name, monsters[i].Health, monsters[i].Attack, monsters[i].Defense);
+                        Console.WriteLine("{0}: HP: {1}, DP: {2}", monsters[i].Name, monsters[i].Health, monsters[i].Defense);
+                        Attack[] monsterAttacks = monsters[i].Attacks;
+                        for (int j = 0; j < monsterAttacks.Length; j++)
+                        {
+                            Console.WriteLine("  {0}: {1} - {2}", j + 1, monsterAttacks[j].Name, monsterAttacks[j].AttackValue);
+                        }
                     }
                     Console.WriteLine();
                     break;
@@ -196,9 +260,25 @@ class Program
                     Console.WriteLine("Update selected");
                     Console.WriteLine();
                     Monster updatedMonster = monsters[1];
-                    updatedMonster.Name = "Johan";
-                    monsters[1] = updatedMonster;
+                    Attack updatedAttack = monsters[1].Attacks[0];
 
+                    Console.WriteLine("Monster[1].Name: before {0}", monsters[1].Name);
+                    Console.WriteLine("updatedMonster.Name: before {0}", updatedMonster.Name);
+                    Console.WriteLine("monsters[1].Attacks[0].AttackValue before {0}", monsters[1].Attacks[0].AttackValue);
+                    Console.WriteLine("updatedAttack.AttackValue before {0}", updatedAttack.AttackValue);
+                         
+                    updatedMonster.Name = "Johan";
+                    updatedAttack.AttackValue = 15;
+
+                    Console.WriteLine("Monster[1].Name: after {0}", monsters[1].Name);
+                    Console.WriteLine("updatedMonster.Name: after {0}", updatedMonster.Name);
+                    Console.WriteLine("monsters[1].Attacks[0].AttackValue after {0}", monsters[1].Attacks[0].AttackValue);
+                    Console.WriteLine("updatedAttack.AttackValue after {0}", updatedAttack.AttackValue);
+
+                    //monsters[1] = updatedMonster;
+                    //Console.WriteLine("Monster[1].Name: final {0}", monsters[1].Name);
+                    //Console.WriteLine("updatedMonster.Name: final {0}", updatedMonster.Name);
+                    Console.ReadLine();
                     break;
                 case "E":
                     Console.WriteLine("E selected");
@@ -213,12 +293,55 @@ class Program
             }
         }
     }
-    public struct Monster
+
+    public class Attack
     {
         private string name;
+        private int attackvalue;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
+        public int AttackValue
+        {
+            get
+            {
+                return attackvalue;
+            }
+            set
+            {
+                attackvalue = value;
+            }
+        }
+    }
+
+    public class Monster
+    {
+
+        private string name;
         private int health;
-        private int attack;
+        //private int attack;
         private int defense;
+        private Attack[] attacks;
+
+        public Attack[] Attacks {
+            get
+            {
+                return attacks;
+            }
+            set
+            {
+                attacks = value;
+            }
+         }
 
         public string Name
         {
@@ -243,17 +366,17 @@ class Program
                 health = value;
             }
         }
-        public int Attack
-        {
-            get
-            {
-                return attack;
-            }
-            set
-            {
-                attack = value;
-            }
-        }
+        //public int Attack
+        //{
+        //    get
+        //    {
+        //        return attack;
+        //    }
+        //    set
+        //    {
+        //        attack = value;
+        //    }
+        //}
         public int Defense
         {
             get
@@ -266,4 +389,58 @@ class Program
             }
         }
     }
+    //public struct Monster
+    //{
+
+    //    private string name;
+    //    private int health;
+    //    private int attack;
+    //    private int defense;
+
+    //    public string Name 
+    //    {
+    //        get
+    //        {
+    //            return name;
+    //        }
+    //        set
+    //        {
+    //            name = value;
+    //        }
+    //    }
+
+    //    public int Health
+    //    {
+    //        get
+    //        {
+    //            return health;
+    //        }
+    //        set
+    //        {
+    //            health = value;
+    //        }
+    //    }
+    //    public int Attack
+    //    {
+    //        get
+    //        {
+    //            return attack;
+    //        }
+    //        set
+    //        {
+    //            attack = value;
+    //        }
+    //    }
+    //    public int Defense
+    //    {
+    //        get
+    //        {
+    //            return defense;
+    //        }
+    //        set
+    //        {
+    //            defense = value;
+    //        }
+    //    }
+    //}
 }
