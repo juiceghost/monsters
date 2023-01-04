@@ -29,6 +29,109 @@ class Program
         //monsterHealthPoints[0] = 10;
         //monsterAttackPoints[0] = 12;
         //monsterDefencePoints[0] = 14;
+
+
+        string parseAmount(int amountToBeParsed)
+        {
+            // returnerar en sträng som ser ut t.ex 400.50
+
+            string amountAsString = amountToBeParsed.ToString();
+            if (amountAsString.Length > 2)
+            {
+                string dollars = amountAsString.Substring(0, amountAsString.Length - 2);
+                string cents = amountAsString.Substring(amountAsString.Length - 2);
+                return dollars + '.' + cents;
+            } else
+            {
+     
+                string cents = amountAsString.Substring(amountAsString.Length - 2);
+                return "0." + cents;
+            }
+            
+        }
+        void inputMoney()
+        {
+            // Hur hantera input av pengar?
+            // "Konton ska kunna ha både kronor och ören"
+            bool keepLooping = true;
+            
+            int amount = 0; // Detta är beloppet multiplicerat med 100, vid visning kom ihåg att dividera med 100
+            while (keepLooping)
+            {
+                Console.WriteLine("Please enter an amount of money");
+                Console.Write("===> ");
+                string userInput = Console.ReadLine();  
+                // Har användaren fyllt i ett tal?
+                // Om ja, så är det i kronor
+                // Har användaren fyllt i en sträng innehållandes en punkt?
+                // Om ja, så är värdet till vänster on punkten kronor och till höger om punkten ören
+
+                // 2000 (= 2000 kronor)
+
+                // 300.50 (= 300 kronor, och 50 öre) lagras som 30050
+
+                // 600.400 (= ogiltig inmatning, för många tecken till höger om punkten)
+
+
+                // hur kolla om det finns en punkt?
+                int decimalPointIndex = userInput.IndexOf('.'); // will be -1 if there is no '.', otherwise will be the index of the '.'
+                
+                string dollars;
+                if (decimalPointIndex == -1)
+                {
+                    // användaren angav inga ören
+                    Console.WriteLine($"User entered amount without cents {userInput}");
+                    bool isValid = int.TryParse(userInput, out amount);
+
+                    if (isValid)
+                    {
+                        amount = amount * 100;
+                        keepLooping = false;
+                        
+                    } else
+                    {
+                        Console.WriteLine("Please enter an amount either in whole dollars or with cents");
+                        Console.WriteLine("Example: 100 or 100.54");
+                        continue;
+                    }
+                }
+                
+                {
+                    Console.WriteLine($"User entered amount with cents {userInput}");
+                    // användaren angav ören
+                    // parsa inputen till två integers, kronor och ören
+
+                    dollars = (decimalPointIndex > 0) ? userInput.Substring(0, decimalPointIndex) : "0";
+                    /*
+                    if (decimalPointIndex > 0)
+                    {
+                         dollars = userInput.Substring(0, decimalPointIndex);
+                    } else
+                    {
+                         dollars = "0";
+                    }
+                    */
+                    string cents = userInput.Substring(decimalPointIndex + 1);
+                    if (cents.Length > 2)
+                    {
+                        Console.WriteLine("Please input maximum 99 cents");
+                        continue;
+                    }
+                    if (cents.Length == 1)
+                    {
+                        cents = cents + "0";
+                    }
+                    //Console.WriteLine($"Amount: {dollars} dollars and {cents} cents");
+                    amount = int.Parse(dollars) * 100 + int.Parse(cents);
+                    keepLooping = false;
+
+                }
+                Console.WriteLine($"Raw amount value {amount}");
+                Console.WriteLine($"\nUser entered {parseAmount(amount)}");
+            }
+            
+
+        }
         void extendMonsterArrays()
         {
             // öka antalet element i alla monster-arrayr med ett
@@ -117,6 +220,7 @@ class Program
             Console.WriteLine("Please select one of the following");
             Console.WriteLine("1. List all monsters");
             Console.WriteLine("2. Create new monster");
+            Console.WriteLine("3. Input money");
             Console.WriteLine("E. Exit");
             Console.Write("----> ");
             string? choice = Console.ReadLine().ToUpper();
@@ -147,6 +251,10 @@ class Program
                     // saveMonsters();
 
                     Console.WriteLine("Monster successfully added to database");
+                    break;
+                case "3":
+
+                    inputMoney();
                     break;
                 case "E":
                     Console.WriteLine("E selected");
