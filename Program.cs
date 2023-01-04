@@ -20,6 +20,10 @@ class Program
         int[] monsterHealthPoints = new int[0];
         int[] monsterAttackPoints = new int[0];
         int[] monsterDefencePoints = new int[0];
+        string[][] monsterSkillNames = new string[0][]; // Jagged
+        int[][] monsterSkillPoints = new int[0][]; // Jagged
+
+        // TODO: investigate jagged array
 
         //monsterNames[0] = "Krille";
         //monsterHealthPoints[0] = 10;
@@ -33,6 +37,8 @@ class Program
             int[] tempMonsterHealthPoints = new int[numberOfMonsters + 1];
             int[] tempMonsterAttackPoints = new int[numberOfMonsters + 1];
             int[] tempMonsterDefencePoints = new int[numberOfMonsters + 1];
+            string[][] tempMonsterSkillNames = new string[numberOfMonsters + 1][];
+            int[][] tempMonsterSkillPoints = new int[numberOfMonsters + 1][];
 
             for (int l = 0; l < numberOfMonsters; l++)
             {
@@ -40,11 +46,15 @@ class Program
                 tempMonsterHealthPoints[l] = monsterHealthPoints[l];
                 tempMonsterAttackPoints[l] = monsterAttackPoints[l];
                 tempMonsterDefencePoints[l] = monsterDefencePoints[l];
+                tempMonsterSkillNames[l] = monsterSkillNames[l];
+                tempMonsterSkillPoints[l] = monsterSkillPoints[l];
             }
             monsterNames = tempMonsterNames;
             monsterHealthPoints = tempMonsterHealthPoints;
             monsterAttackPoints = tempMonsterAttackPoints;
             monsterDefencePoints = tempMonsterDefencePoints;
+            monsterSkillNames = tempMonsterSkillNames;
+            monsterSkillPoints = tempMonsterSkillPoints;
         }
 
         //monsterNames[1] = "Franke";
@@ -56,10 +66,11 @@ class Program
         // plocka ut en rad i taget
         void parseRow(string monsterRow, int index)
         {
+            //Console.WriteLine($"Parsing {monsterRow}");
             var cols = monsterRow.Split(',');
             for (int k = 0; k < cols.Length; k++)
             {
-                Console.WriteLine("Inner foreach loop  {0} col: {1}", k, cols[k]);
+                //Console.WriteLine("Inner foreach loop  {0} col: {1}", k, cols[k]);
                 switch (k)
                 {
                     case 0:
@@ -81,13 +92,18 @@ class Program
 
                 }
             }
+            // Add some skills to monsterSkills[index]
+            string[] tempSkill = new string[] { "Run", "Dodge" };
+            int[] tempPoint = new int[] { 10, 30 };
+            monsterSkillNames[index] = tempSkill;
+            monsterSkillPoints[index] = tempPoint;
         }
 
         var rows = input.Split('\n');
         Console.WriteLine("Outer For loop:");
         for (int j = 0; j < rows.Length; j++)
         {
-            Console.WriteLine("Outer loop {0}: {1}", j, rows[j]);
+            //Console.WriteLine("Outer loop {0}: {1}", j, rows[j]);
             extendMonsterArrays();
             parseRow(rows[j], j);
 
@@ -111,6 +127,11 @@ class Program
                     for (int i = 0; i < monsterNames.Length; i++)
                     {
                         Console.WriteLine("{0}: HP: {1}, AP: {2}, DP: {3}", monsterNames[i], monsterHealthPoints[i], monsterAttackPoints[i], monsterDefencePoints[i]);
+                        for (int j = 0; j < monsterSkillNames[i].Length; j++)
+                        {
+                            Console.WriteLine("  {0} {1}", monsterSkillNames[i][j], monsterSkillPoints[i][j]);
+                        }
+                        
                     }
                     Console.WriteLine();
                     break;
