@@ -60,7 +60,7 @@ class Program
             {
                 Console.WriteLine("Please enter an amount of money");
                 Console.Write("===> ");
-                string userInput = Console.ReadLine();  
+                string userInput = Console.ReadLine();
                 // Har användaren fyllt i ett tal?
                 // Om ja, så är det i kronor
                 // Har användaren fyllt i en sträng innehållandes en punkt?
@@ -94,9 +94,7 @@ class Program
                         Console.WriteLine("Example: 100 or 100.54");
                         continue;
                     }
-                }
-                
-                {
+                } else { 
                     Console.WriteLine($"User entered amount with cents {userInput}");
                     // användaren angav ören
                     // parsa inputen till två integers, kronor och ören
@@ -108,6 +106,7 @@ class Program
                          dollars = userInput.Substring(0, decimalPointIndex);
                     } else
                     {
+                    
                          dollars = "0";
                     }
                     */
@@ -120,6 +119,11 @@ class Program
                     if (cents.Length == 1)
                     {
                         cents = cents + "0";
+                    }
+                    if (cents.Length == 0)
+                    {
+                        Console.WriteLine("Invalid input, please try again.");
+                        continue;
                     }
                     //Console.WriteLine($"Amount: {dollars} dollars and {cents} cents");
                     amount = int.Parse(dollars) * 100 + int.Parse(cents);
