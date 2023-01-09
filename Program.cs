@@ -29,17 +29,17 @@ class Program
                     new Attack
                     {
                         Name = "Omnislash",
-                        AttackValue = 30
+                        AttackValue = 31
                     },
                     new Attack
                     {
                         Name = "KOTR",
-                        AttackValue = 40
+                        AttackValue = 41
                     },
                     new Attack
                     {
                         Name = "Mimic",
-                        AttackValue = 30
+                        AttackValue = 31
                     },
                 }
             },
@@ -52,22 +52,22 @@ class Program
                     new Attack
                     {
                         Name = "Mimic",
-                        AttackValue = 40
+                        AttackValue = 42
                     },
                     new Attack
                     {
                         Name = "Mime",
-                        AttackValue = 20
+                        AttackValue = 22
                     },
                     new Attack
                     {
                         Name = "Run away",
-                        AttackValue = 0
+                        AttackValue = 2
                     },
                     new Attack
                     {
                         Name = "Hack",
-                        AttackValue = 50
+                        AttackValue = 52
                     },
                 }
             }
@@ -221,6 +221,7 @@ class Program
             Console.WriteLine("1. List all monsters");
             Console.WriteLine("2. Create new monster");
             Console.WriteLine("3. Update new monster");
+            Console.WriteLine("4. Have 2 monsters fight");
             Console.WriteLine("E. Exit");
             Console.Write("----> ");
             string? choice = Console.ReadLine().ToUpper(); 
@@ -280,6 +281,76 @@ class Program
                     //Console.WriteLine("updatedMonster.Name: final {0}", updatedMonster.Name);
                     Console.ReadLine();
                     break;
+                case "4":
+                    // Have 2 monsters fight
+                    Console.WriteLine("Please select the first Monster");
+
+
+                        // lista alla monster
+                        // be användaren välja en
+                        for (int i = 0; i < monsters.Length; i++)
+                        {
+                            Console.WriteLine($"{i + 1}. {monsters[i].Name}");
+                        }
+                        string firstMonsterChoice = Console.ReadLine();
+                        int firstMonsterChosen = int.Parse(firstMonsterChoice);
+                        
+
+                    Console.WriteLine("Please select the second  Monster");
+
+
+                    // lista alla monster
+                    // be användaren välja en
+                    for (int i = 0; i < monsters.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {monsters[i].Name}");
+                    }
+                    string secondMonsterChoice = Console.ReadLine();
+                    int secondMonsterChosen = int.Parse(secondMonsterChoice);
+                    Console.WriteLine($"You chose {monsters[firstMonsterChosen - 1].Name} as the first monster");
+                    Console.WriteLine($"You chose {monsters[secondMonsterChosen - 1].Name} as the second monster");
+                    Console.ReadLine();
+
+                    Monster firstMonster = monsters[firstMonsterChosen - 1];
+                    Console.WriteLine($"Please select an attack from {firstMonster.Name}");
+
+                    for (int i = 0; i < firstMonster.Attacks.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {firstMonster.Attacks[i].Name}");
+                    }
+                    string firstAttackChoice = Console.ReadLine();
+                    int firstAttackChosen = int.Parse(firstAttackChoice) - 1 ;
+
+                    Monster secondMonster = monsters[secondMonsterChosen - 1];
+                    Console.WriteLine($"Please select an attack from {secondMonster.Name}");
+
+                    for (int i = 0; i < secondMonster.Attacks.Length; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. {secondMonster.Attacks[i].Name}");
+                    }
+                    string secondAttackChoice = Console.ReadLine();
+                    int secondAttackChosen = int.Parse(secondAttackChoice) - 1;
+
+                    Console.WriteLine($"Please input how many AttackPoints to transfer");
+                    string attackPointsString = Console.ReadLine();
+                    int attackPoints = int.Parse(attackPointsString);
+
+                    // Vi har två valda monster, en attack vald per monster
+                    // Vi har antal attackpoints att "föra över"
+                    // Attack 1 = firstMonster.Attacks[firstAttackChosen].AttackValue
+                    // Attack 2 = secondMonster.Attacks[secondAttackChosen].AttackValue
+
+                    // Vi ska minsta attackPoints från Attack 1
+                    // Samt öka attackpoints på Attack 2
+                    Console.WriteLine($"Before: Attack 1: {firstMonster.Attacks[firstAttackChosen].AttackValue}, Attack 2: {secondMonster.Attacks[secondAttackChosen].AttackValue}");
+
+                    firstMonster.Attacks[firstAttackChosen].AttackValue -= attackPoints;
+                    secondMonster.Attacks[secondAttackChosen].AttackValue += attackPoints;
+
+                    Console.WriteLine($"After: Attack 1: {firstMonster.Attacks[firstAttackChosen].AttackValue}, Attack 2: {secondMonster.Attacks[secondAttackChosen].AttackValue}");
+                    Console.ReadLine();
+                    break;
+
                 case "E":
                     Console.WriteLine("E selected");
                     Console.WriteLine();
