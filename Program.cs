@@ -3,17 +3,86 @@ class Program
 {
     static void Main(string[] args)
     {
-        //string input = "";
-        //try {
-        //    input = File.ReadAllText(@"monsters.txt");
+        string input = "";
+        try
+        {
+            input = File.ReadAllText(@"users.txt");
 
-        //}
-        //catch
-        //{
-        //    Console.WriteLine("No file found...");
-        //}
-        //Console.WriteLine(input);
-        //Console.ReadLine();
+        }
+        catch
+        {
+            Console.WriteLine("No file found...");
+        }
+
+        string[] userRows = input.Split('\n');
+        Console.WriteLine("Welcome!");
+
+        //bool programShouldRun = true;
+        int attemptsLeft = 3;
+        DateTime start = DateTime.Now;
+        Console.WriteLine($"start: {start}");
+        while (attemptsLeft > 0)
+        {
+
+            Console.WriteLine($"Please select a user to log in as: ({attemptsLeft} tries left)");
+            for (int i = 0; i < userRows.Length; i++)
+            {
+                Console.WriteLine($"Row {userRows[i]}");
+                string[] userData = userRows[i].Split(',');
+
+                Console.WriteLine($" {i + 1} - Username: {userData[0]} PIN: {userData[1]}");
+            }
+            Console.Write("===> ");
+            string? userChoice = Console.ReadLine();
+            attemptsLeft--;
+            //int chosenUser = int.Parse(userChoice);
+            bool correctInputGiven = int.TryParse(userChoice, out int chosenUser);
+            if (correctInputGiven && chosenUser > userRows.Length)
+            {
+                correctInputGiven = false;
+            }
+            if (correctInputGiven)
+            {
+                // User logged in correctly
+                string loggedInUser = userRows[chosenUser - 1];
+                userLoggedIn(loggedInUser);
+                attemptsLeft = 3;
+                Console.WriteLine("Back from userLoggedIn");
+                Console.ReadLine();
+            } else
+            {
+                // User did not login correctly
+                Console.WriteLine("Incorrect input. Please try again.");
+            }
+            
+        }
+
+        static void userLoggedIn(string loggedInUser)
+        {
+            Console.WriteLine($"Hello {loggedInUser}");
+            string[] userData = loggedInUser.Split(',');
+            //foreach (string data in userData)
+            //{
+            //    Console.WriteLine($"Data: {data}");
+            //}
+            string[] accountNames = userData[2].Split(';');
+            string[] accountBalances = userData[3].Split(';');
+            Console.WriteLine("Välj ett konto");
+            for (int i = 0; i < accountNames.Length; i++)
+            {
+                Console.WriteLine($"{i + 1} {accountNames[i]}: {accountBalances[i]}");
+            }
+            Console.ReadLine();
+            Console.WriteLine("End of userLoggedIn");
+        }
+
+        Console.WriteLine($"elapsed: {DateTime.Now - start}");
+        Console.WriteLine("Outside login loop");
+        Environment.Exit(0);
+
+
+
+
         // pre-defined monsters
 
         //Monster[] monsters = new Monster[0];
@@ -296,6 +365,7 @@ class Program
 
     public class Attack
     {
+
         private string name;
         private int attackvalue;
 
